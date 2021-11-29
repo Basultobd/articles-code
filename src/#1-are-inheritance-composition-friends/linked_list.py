@@ -1,51 +1,86 @@
-from node import Node
+from dataclasses import dataclass
+from linked_list_node import LinkedListNode
+from typing import Optional
 
 
+@dataclass
 class LinkedList:
+    '''
+    A class used to represent a linked list
 
-    def __init__(self, value):
-        self.root = Node(value)
+    Attributes
+    ----
+    head : LinkedListNode
+        Pointer to the first node in the list
+    tail : LinkedListNode
+        Pointer to the last node in the list
+    '''
 
-    def add(self, value):
-        tmp_node = self.root
+    head: Optional["LinkedListNode"] = None
+    tail: Optional["LinkedListNode"] = None
 
-        while tmp_node.next:
-            tmp_node = tmp_node.next
-        tmp_node.next = Node(value)
+    def append(self, value_to_insert: int) -> None:
+        ''' 
+        O(1) Insert a new node at list tail
 
-    def delete(self, value_to_delete):
-        actual_node = self.root
+        parameters:
+        ----
+        value_to_insert: int
+            value to be inside of the new appended node
+        '''
 
-        # If you try to delete the value in the root node and the list is empty
-        if actual_node.value == value_to_delete and not actual_node.next:
-            print('This is not possible. Add one more node to the list')
-            return
+        new_tail_node = LinkedListNode(data=value_to_insert)
+        if self.tail is None:
+            # When the list is empty
+            self.head = new_tail_node
+        else:
+            # Make the actual tail points to the new node
+            self.tail.next_node = new_tail_node
+
+        # Update list tail
+        self.tail = new_tail_node
+
+    def delete(self, value_to_delete: int) -> None:
+        '''
+        O(n) Delete a node base in its value
+
+        Paramaters 
+        ----
+        value_to_delete: int
+            Value inside of the node to be deleted
+        '''
+        actual_node = self.head
+
+        # If you try to delete the value in the root LinkedListNode and the list is empty
+        if actual_node.data == value_to_delete and not actual_node.next_node:
+            raise ValueError(
+                'This is not possible. Add one more node to the list')
 
         # If the value is in the root node we don't iterate
-        if actual_node.value == value_to_delete:
-            self.root = actual_node.next
+        if actual_node.data == value_to_delete:
+            self.head = actual_node.next_node
             return
 
         # Iterate until we find the node
         previous_node = actual_node
-        actual_node = actual_node.next
-        print(actual_node.value)
-        while actual_node and actual_node.value != value_to_delete:
+        actual_node = actual_node.next_node
+        while actual_node and actual_node.data != value_to_delete:
             previous_node = actual_node
-            actual_node = actual_node.next
+            actual_node = actual_node.next_node
 
         # There is no node with the value to delete
         if not actual_node:
-            print('The value: {value} is not present in any node.'.format(
-                value=value_to_delete))
-            return
+            raise ValueError(
+                'The value: {} is not present in any node.'.format(value_to_delete))
 
-        # Make the connection between previous and the next of the deleted node
-        previous_node.next = actual_node.next
+        # Make the connection between previous and the next_node of the deleted node
+        previous_node.next_node = actual_node.next_node
 
-    # Let's iterate over the nodes using generators!
     def print_list(self):
-        actual_node = self.root
+        '''
+        Iterate over all the list and print each node
+        '''
+        actual_node = self.head
         while actual_node:
             print(actual_node, end='')
-            actual_node = actual_node.next
+            actual_node = actual_node.next_node

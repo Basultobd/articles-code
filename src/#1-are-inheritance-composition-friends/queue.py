@@ -1,18 +1,42 @@
+from dataclasses import dataclass
 from linked_list import LinkedList
 from queue_behaviour import QueueBehaviour
+from overrides import overrides
 
 
+@dataclass
 class LinkedListQueue(LinkedList, QueueBehaviour):
+    '''
+    A class used to represent a queue data structure.
 
-    def __init__(self, value):
-        LinkedList.__init__(self, value)
+    The queue is implemented using a linked lint instead
+    of an array. That's why is inheriting from a linked list
+    parent class.
 
-    # overrides, install overrides
+    To indicate the class is a queue it's implementing the
+    queue behaviour.
+
+    As the class is using @dataclass decorator a constructor is
+    not necessary.
+
+    Example:
+
+        def __init__(self):
+            LinkedList.__init__(self)
+    '''
+
+    @overrides
     def enqueue(self, value):
-        self.add(value)
+        '''
+        Push a new value at the list tail
+        '''
+        self.append(value)
 
-    # overrides, install overrides
+    @overrides
     def dequeue(self):
-        root_value = self.root.value
-        self.delete(root_value)
-        return root_value
+        '''
+        Pop the value at the list head
+        '''
+        head_node_data = self.head.data
+        self.delete(head_node_data)
+        return head_node_data
