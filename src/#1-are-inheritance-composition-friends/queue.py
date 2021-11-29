@@ -26,14 +26,14 @@ class LinkedListQueue(LinkedList, QueueBehaviour):
     '''
 
     @overrides
-    def enqueue(self, value):
+    def enqueue(self, value: int) -> None:
         '''
         Push a new value at the list tail
         '''
         self.append(value)
 
     @overrides
-    def dequeue(self):
+    def dequeue(self) -> None:
         '''
         Pop the value at the list head
         '''

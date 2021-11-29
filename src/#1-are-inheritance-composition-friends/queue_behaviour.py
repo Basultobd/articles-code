@@ -5,7 +5,7 @@ from overrides import EnforceOverrides
 class QueueBehaviour(abc.ABC, EnforceOverrides):
 
     @abc.abstractclassmethod
-    def enqueue(self, value):
+    def enqueue(self, value: int) -> None:
         '''
         Push a element with the specified value 
         in the first position of the queue (FIFO)
@@ -18,7 +18,7 @@ class QueueBehaviour(abc.ABC, EnforceOverrides):
         pass
 
     @abc.abstractclassmethod
-    def dequeue():
+    def dequeue() -> None:
         '''
         Pop the element in the first position of the queue
         '''
